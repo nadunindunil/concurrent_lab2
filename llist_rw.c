@@ -1,4 +1,4 @@
-/*  serial linkedlist - 2017
+/*  rw linkedlist - 2017
     cse 13 
     authors: 130217B, 130147J
 */
@@ -9,6 +9,8 @@
 #include <time.h>
 #include "timer.h"
 
+#include <pthread.h>
+
 struct Node{
     int data;
     struct Node *next;
@@ -17,29 +19,44 @@ struct Node{
 int Member(int value, struct  Node* head_p );
 int Insert(int value, struct Node** head_pp);
 int Delete(int value, struct Node** head_pp);
+void* Operations(void* rank);
 
 int n, m;
 float mMember, mInsert, mDelete;
 
+const int MAX_THREADS = 1024; 
+long thread_count;
+pthread_rwlock_t rwlock;
+int memberCount = 0, insertCount = 0, deleteCount =0;
+struct Node* head = NULL;
+
 int main(int argc, char* argv[]){
 
-    struct Node* head = NULL;
-    int memberCount = 0, insertCount = 0, deleteCount =0;
     double startTime, finishTime, elapsedTime;
 
-    if (argc != 6)
-    {
-        printf("Command required: ./llist n m member insert delete\n");
-    }
-    n = (int) strtol(argv[1], (char **)NULL, 10);
-    m = (int) strtol(argv[2], (char **)NULL, 10);
+    long thread;
+    pthread_t* thread_handles;
 
-    mMember = (float) atof(argv[3]);
-    mInsert = (float) atof(argv[4]);
-    mDelete = (float) atof(argv[5]);
+    if (argc != 7)
+    {
+        printf("Command required: ./llist_rw numOfThreads n m member insert delete\n");
+    }
+
+    thread_count = strtol(argv[1], NULL, 10);  
+    if (thread_count <= 0 || thread_count > MAX_THREADS)
+    {
+        printf("Please give the command: ./llist_rw numOfThreads n m member insert delete\n");
+    }
+
+    n = (int) strtol(argv[2], (char **)NULL, 10);
+    m = (int) strtol(argv[3], (char **)NULL, 10);
+
+    mMember = (float) atof(argv[4]);
+    mInsert = (float) atof(argv[5]);
+    mDelete = (float) atof(argv[6]);
 
    if (n <= 0 || m <= 0 || mMember + mInsert + mDelete!=1.0) {
-	    printf("Command required: ./llist n m member insert delete\n");
+	    printf("Command required: ./llist_rw numOfThreads n m member insert delete\n");
    }
 
    int i;
@@ -52,37 +69,70 @@ int main(int argc, char* argv[]){
     	    }
     	}
 
+        thread_handles = (pthread_t*) malloc (thread_count*sizeof(pthread_t)); 
+
     	GET_TIME(startTime);
-    	for(i=0; i<m; i++)
+
+        pthread_rwlock_init(&rwlock, NULL);
+
+        for (thread = 0; thread < thread_count; thread++)  
+        {
+            pthread_create(&thread_handles[thread], NULL,Operations, (void*)thread);  
+        }
+        
+        for (thread = 0; thread < thread_count; thread++) 
+        {
+            pthread_join(thread_handles[thread], NULL); 
+        }
+        
+        pthread_rwlock_destroy(&rwlock);
+
+    	GET_TIME(finishTime);
+
+
+    	elapsedTime = finishTime - startTime;
+
+    	printf("Elapsed time: %f\n", elapsedTime);
+
+    return 0;
+}
+
+void* Operations(void* rank){
+    long i;
+    long fraction = m / thread_count;
+    for(i=0; i<fraction; i++)
     	{
     		float p = (rand() % 10000 / 10000.0);
     		int r = rand()%65536;
+            printf("%f\n",p);
 
     	    if(p < mMember)
     	    {
+                pthread_rwlock_rdlock(&rwlock);
     	    	Member(r,head);
+                printf("in member\n");
     	        memberCount++;
+                pthread_rwlock_unlock(&rwlock);
     	     }
     	     else if(p < mMember + mInsert )
     	     {
+                pthread_rwlock_rdlock(&rwlock);
     	     	Insert(r,&head);
+                printf("in Insert\n");
     	        insertCount++;
+                pthread_rwlock_unlock(&rwlock);
     	     }
     	     else
     	     {
-    	    	 Delete(r,&head);
-    	         deleteCount ++;
+                pthread_rwlock_rdlock(&rwlock);
+    	    	Delete(r,&head);
+                printf("in Delete\n");
+    	        deleteCount ++;
+                pthread_rwlock_unlock(&rwlock);
     	     }
     	 }
+    return NULL;
 
-    	 GET_TIME(finishTime);
-
-
-    	 elapsedTime = finishTime - startTime;
-
-    	 printf("Elapsed time: %f\n", elapsedTime);
-
-    return 0;
 }
 
 int Member(int value, struct  Node* head_p ){

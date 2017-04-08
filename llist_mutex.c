@@ -1,4 +1,4 @@
-/*  serial linkedlist - 2017
+/*  mutex linkedlist - 2017
     cse 13 
     authors: 130217B, 130147J
 */
@@ -39,13 +39,13 @@ int main(int argc, char* argv[]){
 
     if (argc != 7)
     {
-        printf("Command required: ./llist numOfThreads n m member insert delete\n");
+        printf("Command required: ./llist_mutex numOfThreads n m member insert delete\n");
     }
 
     thread_count = strtol(argv[1], NULL, 10);  
     if (thread_count <= 0 || thread_count > MAX_THREADS)
     {
-        printf("Please give the command: ./llist numOfThreads n m member insert delete\n");
+        printf("Please give the command: ./llist_mutex numOfThreads n m member insert delete\n");
     }
 
     n = (int) strtol(argv[2], (char **)NULL, 10);
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]){
     mDelete = (float) atof(argv[6]);
 
    if (n <= 0 || m <= 0 || mMember + mInsert + mDelete!=1.0) {
-	    printf("Command required: ./llist numOfThreads n m member insert delete\n");
+	    printf("Command required: ./llist_mutex numOfThreads n m member insert delete\n");
    }
 
    int i;
