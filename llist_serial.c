@@ -1,7 +1,19 @@
-/*  serial linkedlist - 2017
-    cse 13 
-    authors: 130217B, 130147J
-*/
+/* File:
+ *     llist_serial.c
+ *
+ * Purpose:
+ *     To implement a linked list as a Serial program
+ *
+ * Output:
+ *     sum and square sum of the elapsed time
+ *
+ * Compile:  gcc -g -Wall -o llist_serial llist_serial.c
+ * Usage:
+ *     ./llist_serial n m mMember mInsert mDelete numOfSamples
+ *
+ * Authors:
+ *     130217B, 130147J
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,7 +50,7 @@ int main(int argc, char *argv[])
 
     if (argc != 7)
     {
-        printf("Command required: ./llist_serial n m member insert delete samples\n");
+        printf("Command required: ./llist_serial n m mMember mInsert mDelete numOfSamples\n");
     }
     n = (int)strtol(argv[1], (char **)NULL, 10);
     m = (int)strtol(argv[2], (char **)NULL, 10);
@@ -50,7 +62,7 @@ int main(int argc, char *argv[])
 
     if (n <= 0 || m <= 0 || mMember + mInsert + mDelete != 1.0)
     {
-        printf("Command required: ./llist_serial n m member insert delete samples\n");
+        printf("Command required: ./llist_serial n m mMember mInsert mDelete numOfSamples\n");
     }
 
     //printList(head);

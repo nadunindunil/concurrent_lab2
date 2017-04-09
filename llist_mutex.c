@@ -1,7 +1,20 @@
-/*  mutex linkedlist - 2017
-    cse 13 
-    authors: 130217B, 130147J
-*/
+/* File:
+ *     llist_mutex.c
+ *
+ * Purpose:
+ *     To implement a linked list as a Parallel program using a single mutex for the entire linked list
+ *
+ * Output:
+ *     sum and square sum of the elapsed time
+ *
+ * Compile:  gcc -g -Wall -o llist_mutex llist_mutex.c -lpthread
+ * Usage:
+ *     ./llist_mutex numOfThreads n m mMember mInsert mDelete numOfSamples
+ *
+ * Authors:
+ *     130217B, 130147J
+ */
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,13 +58,13 @@ int main(int argc, char *argv[])
 
     if (argc != 8)
     {
-        printf("Command required: ./llist_mutex numOfThreads n m member insert delete samples\n");
+        printf("Command required: ./llist_mutex numOfThreads n m mMember mInsert mDelete numOfSamples\n");
     }
 
     thread_count = strtol(argv[1], NULL, 10);
     if (thread_count <= 0 || thread_count > MAX_THREADS)
     {
-        printf("Please give the command: ./llist_mutex numOfThreads n m member insert delete samples\n");
+        printf("Please give the command: ./llist_mutex numOfThreads n m mMember mInsert mDelete numOfSamples\n");
     }
 
     n = (int)strtol(argv[2], (char **)NULL, 10);
@@ -64,7 +77,7 @@ int main(int argc, char *argv[])
 
     if (n <= 0 || m <= 0 || mMember + mInsert + mDelete != 1.0)
     {
-        printf("Command required: ./llist_mutex numOfThreads n m member insert delete samples\n");
+        printf("Command required: ./llist_mutex numOfThreads n m mMember mInsert mDelete numOfSamples\n");
     }
 
     int j;

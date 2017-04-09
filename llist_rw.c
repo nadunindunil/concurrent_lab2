@@ -1,7 +1,21 @@
-/*  rw linkedlist - 2017
-    cse 13 
-    authors: 130217B, 130147J
-*/
+/* File:
+ *     llist_rw.c
+ *
+ * Purpose:
+ *     To implement a linked list as a Parallel program using a read write lock
+ *
+ * Output:
+ *     sum and square sum of the elapsed time
+ *
+ * Compile:  gcc -g -Wall -o llist_rw llist_rw.c -lpthread
+ * Usage:
+ *     ./llist_rw numOfThreads n m mMember mInsert mDelete numOfSamples
+ *
+ * Authors:
+ *     130217B, 130147J
+ */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
