@@ -45,13 +45,13 @@ int main(int argc, char *argv[])
 
     if (argc != 8)
     {
-        printf("Command required: ./llist_rw numOfThreads n m member insert delete\n");
+        printf("Command required: ./llist_rw numOfThreads n m member insert delete samples\n");
     }
 
     thread_count = strtol(argv[1], NULL, 10);
     if (thread_count <= 0 || thread_count > MAX_THREADS)
     {
-        printf("Command required: ./llist_rw numOfThreads n m member insert delete\n");
+        printf("Command required: ./llist_rw numOfThreads n m member insert delete samples\n");
     }
 
     n = (int)strtol(argv[2], (char **)NULL, 10);
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 
     if (n <= 0 || m <= 0 || mMember + mInsert + mDelete != 1.0)
     {
-        printf("Command required: ./llist_rw numOfThreads n m member insert delete\n");
+        printf("Command required: ./llist_rw numOfThreads n m member insert delete samples\n");
     }
 
     int j;
