@@ -1,2 +1,4 @@
 test.c
 *.dSYM
+.idea/
+cmake-build-debug/

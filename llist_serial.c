@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 
     if (argc != 7)
     {
-        printf("Command required: ./llist_serial n m member insert delete\n");
+        printf("Command required: ./llist_serial n m member insert delete samples\n");
     }
     n = (int)strtol(argv[1], (char **)NULL, 10);
     m = (int)strtol(argv[2], (char **)NULL, 10);
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 
     if (n <= 0 || m <= 0 || mMember + mInsert + mDelete != 1.0)
     {
-        printf("Command required: ./llist_serial n m member insert delete\n");
+        printf("Command required: ./llist_serial n m member insert delete samples\n");
     }
 
     //printList(head);
